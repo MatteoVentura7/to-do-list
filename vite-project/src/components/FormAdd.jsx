@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import Button from './button';
 
 export default function FormAdd({onAdd, tasks}) {
 
@@ -21,9 +22,8 @@ export default function FormAdd({onAdd, tasks}) {
                     onChange={e => setInput(e.target.value)}
                     placeholder='Nuova attività'
                 />
-                <button className='caret-amber-200 p-1 mr-2 border-2 cursor-pointer' onClick={handleAdd}>
-                    Aggiungi attività
-                </button>
+            <Button onClick={handleAdd}>Aggiungi attività</Button> 
+                
             </div>
     )
     } 
