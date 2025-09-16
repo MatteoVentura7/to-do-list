@@ -1,7 +1,11 @@
 import ListItem from "./ListItem";
+import { useState } from "react";
 
 
-export default function List({ tasks, onEdit, editId, onEditText, editText, onAdd }) {
+export default function List({ tasks, onAdd }) {
+
+     const [editId, setEditId] = useState(null);
+         const [editText, setEditText] = useState('');
     
 
     return (
@@ -13,12 +17,12 @@ export default function List({ tasks, onEdit, editId, onEditText, editText, onAd
                         <ListItem
                             key={task.id}
                             task={task}
-                            onEdit={onEdit}
-                            editId={editId}
-                            onEditText={onEditText}
-                            editText={editText}
                             onAdd={onAdd}
                             tasks={tasks}
+                            onEdit={setEditId} 
+                            editId={editId} 
+                            onEditText={setEditText} 
+                            editText={editText} 
                         />
                     ))}
                 </ul>
