@@ -11,17 +11,18 @@ function App() {
     
      const [editId, setEditId] = useState(null);
      const [editText, setEditText] = useState('');
-   
-
-  
-
-    
-
 
     return (
         <>
             <FormAdd onAdd={setTasks} tasks={tasks}/>
-            <List onEdit={setEditId} editId={editId} onEditText={setEditText} editText={editText} onAdd={setTasks} tasks={tasks}/>
+            <List 
+            onEdit={setEditId} 
+            editId={editId} 
+            onEditText={setEditText} 
+            editText={editText} 
+            onAdd={setTasks} 
+            tasks={tasks}
+            />
 
         </>
     );
