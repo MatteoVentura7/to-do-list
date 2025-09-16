@@ -15,8 +15,10 @@ function App() {
         <>
             <FormAdd onAdd={setTasks} tasks={tasks}/>
             <List 
-            onAdd={setTasks} 
             tasks={tasks}
+            onDelete={setTasks}
+            onCheck={setTasks}
+            onSave={setTasks}
             />
 
         </>

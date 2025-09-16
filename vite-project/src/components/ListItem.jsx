@@ -1,9 +1,9 @@
 import Button from "./button";
 
-export default function ListItem({ onEdit, editId, onEditText, editText, onAdd, tasks, task }) {
+export default function ListItem({ onEdit, editId, onEditText, editText,  tasks, task , onSave, onCheck, onDelete }) {
 
      const handleDelete = (id) => {
-        onAdd(tasks.filter(task => task.id !== id));
+        onDelete(tasks.filter(task => task.id !== id));
     };
 
    
@@ -14,13 +14,13 @@ export default function ListItem({ onEdit, editId, onEditText, editText, onAdd, 
 
    
     const handleEditSave = (id) => {
-        onAdd(tasks.map(task => task.id === id ? { ...task, text: editText } : task));
+        onSave(tasks.map(task => task.id === id ? { ...task, text: editText } : task));
         onEdit(null);
         onEditText('');
     };
 
     const handleCheck = (id) => {
-        onAdd(tasks.map(task => task.id === id ? { ...task, done: !task.done } : task));
+        onCheck(tasks.map(task => task.id === id ? { ...task, done: !task.done } : task));
     };
 
     return (
