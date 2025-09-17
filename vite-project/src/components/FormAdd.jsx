@@ -3,10 +3,24 @@ import Button from './button';
 
 export default function FormAdd({onAdd, tasks}) {
 
-       const handleAdd = () => {
-        if (input.trim() === '') return;
-        onAdd([...tasks, { id: Date.now(), text: input, done: false }]);
-        setInput('');
+
+    const handleAdd = async () => {
+        if (typeof input !== 'string' || input.trim() === '') return;
+        try {
+            const response = await fetch('http://localhost:3000/tasks', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ texts: input, completed: false }),
+            });
+            if (!response.ok) throw new Error('Errore nella creazione task');
+            const newTask = await response.json();
+            onAdd([...tasks, newTask]);
+            setInput('');
+        } catch (error) {
+            console.error('Errore:', error);
+        }
     };
 
     const [input, setInput] = useState('');
