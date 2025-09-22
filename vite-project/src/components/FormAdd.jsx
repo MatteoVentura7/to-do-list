@@ -16,9 +16,7 @@ export default function FormAdd({ onAdd, tasks }) {
       if (!response.ok) throw new Error("Errore nella creazione task");
       const newTask = await response.json();
       console.log("Nuova attività dal server:", newTask);
-      if (!newTask.texts) {
-        newTask.texts = input; // Assicura che la nuova attività abbia la struttura corretta
-      }
+     
       onAdd([...tasks, newTask]); // Aggiorna la lista delle attività
       setInput(""); // Resetta il campo di input
     } catch (error) {

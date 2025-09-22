@@ -10,9 +10,9 @@ export default function List({ tasks, onDelete, onCheck, onSave }) {
       <section>
         <h2>To Do</h2>
         <ul className="mb-2">
-          {tasks.map((task, index) => (
+          {tasks.map((task) => (
             <ListItem
-              key={task.id || index} // Fallback all'indice se task.id non è disponibile
+              key={task.id} 
               task={task}
               onDelete={onDelete}
               onCheck={onCheck}

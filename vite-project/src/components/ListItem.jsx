@@ -112,7 +112,7 @@ export default function ListItem({
         <>
           <input
             className="border-2 p-1 mr-2"
-            value={editText}
+            value={editText} 
             onChange={(e) => onEditText(e.target.value)}
           />
 
