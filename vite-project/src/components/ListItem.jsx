@@ -64,6 +64,7 @@ export default function ListItem({
     const currentTask = tasks.find((task) => task.id === id);
     if (!currentTask) return;
     try {
+      const updatedCompletedStatus = !currentTask.completed;
       const response = await fetch(
         `http://localhost:3000/tasks/${id}/completed`,
         {
@@ -71,12 +72,18 @@ export default function ListItem({
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ completed: !currentTask.completed }),
+          body: JSON.stringify({ completed: updatedCompletedStatus }),
         }
       );
       if (!response.ok) throw new Error("Errore nel check task");
       const updatedTask = await response.json();
-      onCheck(tasks.map((task) => (task.id === id ? updatedTask : task)));
+
+      // Update the local state immediately to reflect changes
+      onCheck(
+        tasks.map((task) =>
+          task.id === id ? { ...task, completed: updatedCompletedStatus } : task
+        )
+      );
     } catch (error) {
       console.error("Errore:", error);
     }
