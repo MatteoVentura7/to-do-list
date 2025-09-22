@@ -12,7 +12,7 @@ export default function List({ tasks, onDelete, onCheck, onSave }) {
         <ul className="mb-2">
           {tasks.map((task, index) => (
             <ListItem
-              key={task.id || index} // Fallback to index if task.id is missing
+              key={task.id || index} // Fallback all'indice se task.id non è disponibile
               task={task}
               onDelete={onDelete}
               onCheck={onCheck}

@@ -11,39 +11,48 @@ export default function ListItem({
   onDelete,
   onCheck,
 }) {
+  // Funzione per gestire l'eliminazione di un'attività
   const handleDelete = async (id) => {
     try {
       const response = await fetch(`http://localhost:3000/tasks/${id}`, {
         method: "DELETE",
       });
       if (!response.ok) throw new Error("Errore nella cancellazione task");
+      // Aggiorna la lista delle attività dopo l'eliminazione
       onDelete(tasks.filter((task) => task.id !== id));
     } catch (error) {
       console.error("Errore:", error);
     }
   };
 
+  // Funzione per gestire la modifica di un'attività
   const handleEdit = (id, texts) => {
-    onEdit(id);
-    onEditText(texts);
+    onEdit(id); // Imposta l'ID dell'attività in modifica
+    onEditText(texts); // Imposta il testo dell'attività in modifica
   };
 
+  // Funzione per salvare l'attività modificata
   const handleEditSave = async (id) => {
     if (!id) {
-      console.error("ID is undefined. Cannot update task.");
+      console.error("ID non definito. Impossibile aggiornare l'attività.");
+      console.log("Valore di id:", id); // Log per diagnosticare il problema
       return;
     }
 
-    try {
-      console.log("Updating task with ID:", id);
+    console.log("Valore di id passato a handleEditSave:", id); // Log per diagnosticare il problema
 
+    try {
+      console.log("Aggiornamento dell'attività con ID:", id);
+
+      // Aggiorna localmente la lista delle attività
       const updatedTasks = tasks.map((task) =>
         task.id === id ? { ...task, texts: editText } : task
       );
       onSave(updatedTasks);
-      onEdit(null);
-      onEditText("");
+      onEdit(null); // Resetta lo stato di modifica
+      onEditText(""); // Resetta il testo modificato
 
+      // Invia l'attività aggiornata al server
       const response = await fetch(`http://localhost:3000/tasks/${id}`, {
         method: "PUT",
         headers: {
@@ -54,17 +63,19 @@ export default function ListItem({
       if (!response.ok) throw new Error("Errore nella modifica task");
 
       const updatedTask = await response.json();
+      // Aggiorna la lista delle attività con la risposta del server
       onSave(updatedTasks.map((task) => (task.id === id ? updatedTask : task)));
     } catch (error) {
       console.error("Errore:", error);
     }
   };
 
+  // Funzione per alternare lo stato di completamento di un'attività
   const handleCheck = async (id) => {
     const currentTask = tasks.find((task) => task.id === id);
     if (!currentTask) return;
     try {
-      const updatedCompletedStatus = !currentTask.completed;
+      const updatedCompletedStatus = !currentTask.completed; // Alterna lo stato di completamento
       const response = await fetch(
         `http://localhost:3000/tasks/${id}/completed`,
         {
@@ -78,7 +89,7 @@ export default function ListItem({
       if (!response.ok) throw new Error("Errore nel check task");
       const updatedTask = await response.json();
 
-      // Update the local state immediately to reflect changes
+      // Aggiorna la lista delle attività con il nuovo stato di completamento
       onCheck(
         tasks.map((task) =>
           task.id === id ? { ...task, completed: updatedCompletedStatus } : task
@@ -104,6 +115,7 @@ export default function ListItem({
             value={editText}
             onChange={(e) => onEditText(e.target.value)}
           />
+
           <Button onClick={() => handleEditSave(task.id)}>Salva</Button>
         </>
       ) : (
@@ -115,7 +127,9 @@ export default function ListItem({
           >
             {task.texts}
           </span>
+
           <Button onClick={() => handleDelete(task.id)}>Elimina</Button>
+
           <Button onClick={() => handleEdit(task.id, task.texts)}>
             Modifica attività
           </Button>
